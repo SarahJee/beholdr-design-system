@@ -1,0 +1,12 @@
+/* Forno Standard Variable (licensed). One variable file covers weights 100 to 900.
+   The metric overrides make text sit exactly where it does in Figma. Keep them. */
+@font-face {
+  font-family: "Forno Standard Variable";
+  src: url("../fonts/FornoStandardVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 92%;
+  descent-override: 22.5%;
+  line-gap-override: 0%;
+}

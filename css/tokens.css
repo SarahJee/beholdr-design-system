@@ -1,0 +1,162 @@
+/* Beholdr design tokens. Generated from the Figma library (Beholdr Design System 2025-26). Do not edit by hand. */
+:root {
+  /* Colour: primitives */
+  --color-neutral-brand-black: #2b2b2b;
+  --color-neutral-brand-white: #ffffff;
+  --color-neutral-grey-300: #d9d9d9;
+  --color-yellow-400: #ffef63;
+  --color-teal-600: #2c9676;
+  --color-purple-600: #9145a4;
+  --color-purple-200: #d3b5db;
+  --color-orange-500: #ee673d;
+  --color-orange-200: #ffc4b2;
+  --color-blue-500: #4969f3;
+  --color-pink-400: #f565a2;
+  --color-pink-200: #ffa8cc;
+  --color-green-700: #416e42;
+  --color-green-300: #96c898;
+  --color-indigo-700: #3d47a0;
+  --color-indigo-300: #979dd4;
+  /* Colour: semantic (use these in components) */
+  --text-black: var(--color-neutral-brand-black);
+  --text-white: var(--color-neutral-brand-white);
+  --text-accent: var(--color-yellow-400);
+  --surface-white: var(--color-neutral-brand-white);
+  --surface-black: var(--color-neutral-brand-black);
+  --surface-accent: var(--color-yellow-400);
+  --surface-placeholder: var(--color-neutral-grey-300);
+  --border-black: var(--color-neutral-brand-black);
+  --border-white: var(--color-neutral-brand-white);
+  --border-accent: var(--color-yellow-400);
+  --icon-black: var(--color-neutral-brand-black);
+  --icon-white: var(--color-neutral-brand-white);
+  --category-neighborhoods: var(--color-neutral-brand-black);
+  --category-guides: var(--color-teal-600);
+  --category-art-spaces: var(--color-purple-600);
+  --category-other-places: var(--color-orange-500);
+  --category-exhibitions: var(--color-blue-500);
+  --category-eat-drink: var(--color-orange-500);
+  --category-shop: var(--color-pink-400);
+  --category-relax: var(--color-green-700);
+  --category-stay: var(--color-indigo-700);
+  --category-tint-art-spaces: var(--color-purple-200);
+  --category-tint-eat-drink: var(--color-orange-200);
+  --category-tint-shop: var(--color-pink-200);
+  --category-tint-relax: var(--color-green-300);
+  --category-tint-stay: var(--color-indigo-300);
+  /* Spacing (8px grid, 4px half steps) */
+  --space-0: 0px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-120: 120px;
+  --space-128: 128px;
+  --space-184: 184px;
+  /* Radius */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-full: 9999px;
+  /* Font */
+  --font-sans: "Forno Standard Variable", system-ui, sans-serif;
+  --font-weight-regular: 450;
+  --font-weight-semibold: 650;
+  --font-weight-bold: 670;
+  /* Type: mobile first. Tablet and desktop values below. */
+  --type-display-1: 48px; --type-display-1--line-height: 55px; --type-display-1--letter-spacing: -0.02em; --type-display-1--weight: 670;
+  --type-display-2: 34px; --type-display-2--line-height: 40px; --type-display-2--letter-spacing: -0.01em; --type-display-2--weight: 670;
+  --type-h1: 40px; --type-h1--line-height: 55px; --type-h1--letter-spacing: -0.02em; --type-h1--weight: 670;
+  --type-h2: 30px; --type-h2--line-height: 40px; --type-h2--letter-spacing: -0.01em; --type-h2--weight: 670;
+  --type-h3: 26px; --type-h3--line-height: 32px; --type-h3--letter-spacing: -0.01em; --type-h3--weight: 670;
+  --type-h4: 24px; --type-h4--line-height: 28px; --type-h4--letter-spacing: 0; --type-h4--weight: 670;
+  --type-h5: 20px; --type-h5--line-height: 26px; --type-h5--letter-spacing: 0; --type-h5--weight: 670;
+  --type-h6: 13px; --type-h6--line-height: 14px; --type-h6--letter-spacing: 0.05em; --type-h6--weight: 450;
+  --type-body-xl: 20px; --type-body-xl--line-height: 28px; --type-body-xl--letter-spacing: 0; --type-body-xl--weight: 450;
+  --type-body-lg: 18px; --type-body-lg--line-height: 26px; --type-body-lg--letter-spacing: 0; --type-body-lg--weight: 450;
+  --type-body-lg-bold: 18px; --type-body-lg-bold--line-height: 26px; --type-body-lg-bold--letter-spacing: 0; --type-body-lg-bold--weight: 650;
+  --type-body: 16px; --type-body--line-height: 24px; --type-body--letter-spacing: 0; --type-body--weight: 450;
+  --type-body-bold: 16px; --type-body-bold--line-height: 24px; --type-body-bold--letter-spacing: 0; --type-body-bold--weight: 650;
+  --type-body-sm: 14px; --type-body-sm--line-height: 20px; --type-body-sm--letter-spacing: 0; --type-body-sm--weight: 450;
+  --type-body-sm-bold: 14px; --type-body-sm-bold--line-height: 20px; --type-body-sm-bold--letter-spacing: 0; --type-body-sm-bold--weight: 650;
+  --type-body-xs: 12px; --type-body-xs--line-height: 16px; --type-body-xs--letter-spacing: 0; --type-body-xs--weight: 450;
+  --type-link-lg: 18px; --type-link-lg--line-height: 26px; --type-link-lg--letter-spacing: 0; --type-link-lg--weight: 650;
+  --type-link: 16px; --type-link--line-height: 24px; --type-link--letter-spacing: 0; --type-link--weight: 650;
+  --type-link-sm: 14px; --type-link-sm--line-height: 20px; --type-link-sm--letter-spacing: 0; --type-link-sm--weight: 650;
+  --type-button: 14px; --type-button--line-height: 20px; --type-button--letter-spacing: 0; --type-button--weight: 670;
+}
+@media (min-width: 48rem) { /* Tablet. Breakpoint to confirm against the site. */
+  :root {
+    --type-display-1: 68px; --type-display-1--line-height: 74px; --type-display-1--letter-spacing: -0.02em;
+    --type-display-2: 46px; --type-display-2--line-height: 54px; --type-display-2--letter-spacing: -0.01em;
+    --type-h1: 58px; --type-h1--line-height: 64px; --type-h1--letter-spacing: -0.02em;
+    --type-h2: 34px; --type-h2--line-height: 40px; --type-h2--letter-spacing: -0.01em;
+    --type-h3: 28px; --type-h3--line-height: 30px; --type-h3--letter-spacing: -0.01em;
+    --type-h4: 24px; --type-h4--line-height: 28px; --type-h4--letter-spacing: 0;
+    --type-h5: 22px; --type-h5--line-height: 30px; --type-h5--letter-spacing: 0;
+    --type-h6: 14px; --type-h6--line-height: 14px; --type-h6--letter-spacing: 1px;
+    --type-body-xl: 20px; --type-body-xl--line-height: 28px; --type-body-xl--letter-spacing: 0;
+    --type-body-lg: 18px; --type-body-lg--line-height: 26px; --type-body-lg--letter-spacing: 0;
+    --type-body-lg-bold: 18px; --type-body-lg-bold--line-height: 26px; --type-body-lg-bold--letter-spacing: 0;
+    --type-body: 16px; --type-body--line-height: 26px; --type-body--letter-spacing: 0;
+    --type-body-bold: 16px; --type-body-bold--line-height: 26px; --type-body-bold--letter-spacing: 0;
+    --type-body-sm: 14px; --type-body-sm--line-height: 20px; --type-body-sm--letter-spacing: 0;
+    --type-body-sm-bold: 14px; --type-body-sm-bold--line-height: 20px; --type-body-sm-bold--letter-spacing: 0;
+    --type-body-xs: 12px; --type-body-xs--line-height: 18px; --type-body-xs--letter-spacing: 0;
+    --type-link-lg: 20px; --type-link-lg--line-height: 28px; --type-link-lg--letter-spacing: 0;
+    --type-link: 16px; --type-link--line-height: 26px; --type-link--letter-spacing: 0;
+    --type-link-sm: 14px; --type-link-sm--line-height: 20px; --type-link-sm--letter-spacing: 0;
+    --type-button: 16px; --type-button--line-height: 26px; --type-button--letter-spacing: 0;
+  }
+}
+@media (min-width: 64rem) { /* Desktop. Breakpoint to confirm against the site. */
+  :root {
+    --type-display-1: 72px; --type-display-1--line-height: 80px; --type-display-1--letter-spacing: -0.03em;
+    --type-display-2: 50px; --type-display-2--line-height: 58px; --type-display-2--letter-spacing: -0.03em;
+    --type-h1: 64px; --type-h1--line-height: 62px; --type-h1--letter-spacing: -0.03em;
+    --type-h2: 36px; --type-h2--line-height: 48px; --type-h2--letter-spacing: -0.01em;
+    --type-h3: 30px; --type-h3--line-height: 36px; --type-h3--letter-spacing: -0.01em;
+    --type-h4: 24px; --type-h4--line-height: 32px; --type-h4--letter-spacing: 0;
+    --type-h5: 22px; --type-h5--line-height: 30px; --type-h5--letter-spacing: 0;
+    --type-h6: 16px; --type-h6--line-height: 20px; --type-h6--letter-spacing: 1px;
+    --type-body-xl: 20px; --type-body-xl--line-height: 28px; --type-body-xl--letter-spacing: 0;
+    --type-body-lg: 18px; --type-body-lg--line-height: 26px; --type-body-lg--letter-spacing: 0;
+    --type-body-lg-bold: 18px; --type-body-lg-bold--line-height: 26px; --type-body-lg-bold--letter-spacing: 0;
+    --type-body: 16px; --type-body--line-height: 26px; --type-body--letter-spacing: 0;
+    --type-body-bold: 16px; --type-body-bold--line-height: 26px; --type-body-bold--letter-spacing: 0;
+    --type-body-sm: 14px; --type-body-sm--line-height: 20px; --type-body-sm--letter-spacing: 0;
+    --type-body-sm-bold: 14px; --type-body-sm-bold--line-height: 20px; --type-body-sm-bold--letter-spacing: 0;
+    --type-body-xs: 12px; --type-body-xs--line-height: 18px; --type-body-xs--letter-spacing: 0;
+    --type-link-lg: 20px; --type-link-lg--line-height: 28px; --type-link-lg--letter-spacing: 0;
+    --type-link: 16px; --type-link--line-height: 26px; --type-link--letter-spacing: 0;
+    --type-link-sm: 14px; --type-link-sm--line-height: 20px; --type-link-sm--letter-spacing: 0;
+    --type-button: 16px; --type-button--line-height: 20px; --type-button--letter-spacing: 0;
+  }
+}
+/* Type classes */
+.type-display-1 { font-family: var(--font-sans); font-size: var(--type-display-1); line-height: var(--type-display-1--line-height); letter-spacing: var(--type-display-1--letter-spacing); font-weight: var(--type-display-1--weight); }
+.type-display-2 { font-family: var(--font-sans); font-size: var(--type-display-2); line-height: var(--type-display-2--line-height); letter-spacing: var(--type-display-2--letter-spacing); font-weight: var(--type-display-2--weight); }
+.type-h1 { font-family: var(--font-sans); font-size: var(--type-h1); line-height: var(--type-h1--line-height); letter-spacing: var(--type-h1--letter-spacing); font-weight: var(--type-h1--weight); }
+.type-h2 { font-family: var(--font-sans); font-size: var(--type-h2); line-height: var(--type-h2--line-height); letter-spacing: var(--type-h2--letter-spacing); font-weight: var(--type-h2--weight); }
+.type-h3 { font-family: var(--font-sans); font-size: var(--type-h3); line-height: var(--type-h3--line-height); letter-spacing: var(--type-h3--letter-spacing); font-weight: var(--type-h3--weight); }
+.type-h4 { font-family: var(--font-sans); font-size: var(--type-h4); line-height: var(--type-h4--line-height); letter-spacing: var(--type-h4--letter-spacing); font-weight: var(--type-h4--weight); }
+.type-h5 { font-family: var(--font-sans); font-size: var(--type-h5); line-height: var(--type-h5--line-height); letter-spacing: var(--type-h5--letter-spacing); font-weight: var(--type-h5--weight); }
+.type-h6 { font-family: var(--font-sans); font-size: var(--type-h6); line-height: var(--type-h6--line-height); letter-spacing: var(--type-h6--letter-spacing); font-weight: var(--type-h6--weight); text-transform: uppercase; }
+.type-body-xl { font-family: var(--font-sans); font-size: var(--type-body-xl); line-height: var(--type-body-xl--line-height); letter-spacing: var(--type-body-xl--letter-spacing); font-weight: var(--type-body-xl--weight); }
+.type-body-lg { font-family: var(--font-sans); font-size: var(--type-body-lg); line-height: var(--type-body-lg--line-height); letter-spacing: var(--type-body-lg--letter-spacing); font-weight: var(--type-body-lg--weight); }
+.type-body-lg-bold { font-family: var(--font-sans); font-size: var(--type-body-lg-bold); line-height: var(--type-body-lg-bold--line-height); letter-spacing: var(--type-body-lg-bold--letter-spacing); font-weight: var(--type-body-lg-bold--weight); }
+.type-body { font-family: var(--font-sans); font-size: var(--type-body); line-height: var(--type-body--line-height); letter-spacing: var(--type-body--letter-spacing); font-weight: var(--type-body--weight); }
+.type-body-bold { font-family: var(--font-sans); font-size: var(--type-body-bold); line-height: var(--type-body-bold--line-height); letter-spacing: var(--type-body-bold--letter-spacing); font-weight: var(--type-body-bold--weight); }
+.type-body-sm { font-family: var(--font-sans); font-size: var(--type-body-sm); line-height: var(--type-body-sm--line-height); letter-spacing: var(--type-body-sm--letter-spacing); font-weight: var(--type-body-sm--weight); }
+.type-body-sm-bold { font-family: var(--font-sans); font-size: var(--type-body-sm-bold); line-height: var(--type-body-sm-bold--line-height); letter-spacing: var(--type-body-sm-bold--letter-spacing); font-weight: var(--type-body-sm-bold--weight); }
+.type-body-xs { font-family: var(--font-sans); font-size: var(--type-body-xs); line-height: var(--type-body-xs--line-height); letter-spacing: var(--type-body-xs--letter-spacing); font-weight: var(--type-body-xs--weight); }
+.type-link-lg { font-family: var(--font-sans); font-size: var(--type-link-lg); line-height: var(--type-link-lg--line-height); letter-spacing: var(--type-link-lg--letter-spacing); font-weight: var(--type-link-lg--weight); text-decoration: underline; text-underline-offset: 3px; }
+.type-link { font-family: var(--font-sans); font-size: var(--type-link); line-height: var(--type-link--line-height); letter-spacing: var(--type-link--letter-spacing); font-weight: var(--type-link--weight); text-decoration: underline; text-underline-offset: 3px; }
+.type-link-sm { font-family: var(--font-sans); font-size: var(--type-link-sm); line-height: var(--type-link-sm--line-height); letter-spacing: var(--type-link-sm--letter-spacing); font-weight: var(--type-link-sm--weight); text-decoration: underline; text-underline-offset: 3px; }
+.type-button { font-family: var(--font-sans); font-size: var(--type-button); line-height: var(--type-button--line-height); letter-spacing: var(--type-button--letter-spacing); font-weight: var(--type-button--weight); }
