@@ -16,7 +16,7 @@ The visual reference, with live component previews, is the Beholdr design system
 | `tokens/tokens.json` | The tokens as data, for tooling. |
 | `components/` | Reference React components (`beholdr-components.js`), their prop types (`index.d.ts`), and usage notes (`COMPONENTS.md`). |
 | `fonts/` | The licensed Forno Standard Variable font file. This repo is private for that reason: don't make it public. |
-| `figma/` | The script that collapses the Figma text styles onto the Responsive variables. |
+| `figma/` | The script that collapsed the Figma text styles onto the Responsive variables. Already run; kept for reference. |
 
 ## Getting started
 
@@ -63,6 +63,8 @@ Mobile first. Every style has a size, line height, letter spacing, and weight th
 - **Tailwind v4:** `text-h1`, `text-body`, and so on.
 
 Styles: `display-1`, `display-2`, `h1` to `h6`, `body-xl`, `body-lg`, `body-lg-bold`, `body`, `body-bold`, `body-sm`, `body-sm-bold`, `body-xs`, `link-lg`, `link`, `link-sm`, `button`. `h6` is an uppercase label, and the `link` styles are underlined.
+
+**In Figma**, each of these is one text style bound to the Responsive variables (Desktop, Tablet, and Mobile modes): Heading/Display 1 is `display-1`, Heading/h1 is `h1`, Body/Regular is `body`, Body/Small Bold is `body-sm-bold`, Link/Small is `link-sm`, Button/Text is `button`, and so on. The values in `tokens.css` match the Figma variables exactly.
 
 **Breakpoints to confirm:** the package uses 48rem (768px) for tablet and 64rem (1024px) for desktop, the Tailwind `md` and `lg` defaults. Change the two media queries in `tokens.css` if the site uses different ones.
 
