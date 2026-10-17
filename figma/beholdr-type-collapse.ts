@@ -14,7 +14,7 @@
 const DEVICES = ['Desktop', 'Tablet', 'Mobile'];
 
 // Old style name (after the device prefix) -> new style
-const MAP = {
+const MAP: any = {
   'Heading/h1 Display': ['Heading/Display 1', 'display-1'],
   'Heading/h2 Display': ['Heading/Display 2', 'display-2'],
   'Heading/h1': ['Heading/h1', 'h1'],
@@ -39,26 +39,28 @@ const MAP = {
   'Link/Button Text': ['Button/Text', 'button'],
 };
 
-const report = { styles: 0, varsCreated: 0, swapped: 0, modesPinned: 0, skipped: [] };
+const report: any = { styles: 0, varsCreated: 0, swapped: 0, modesPinned: 0, skipped: [] };
 
 // ---------- 1. Read old styles ----------
 const oldStyles = await figma.getLocalTextStylesAsync();
-const groups = {}; // key -> { newName, byDevice: { Desktop: style, ... } }
-const oldToKey = {}; // old style id -> { key, device }
+const groups: any = {}; // key -> { newName, byDevice: { Desktop: style, ... } }
+const oldToKey: any = {}; // old style id -> { key, device }
 for (const s of oldStyles) {
   const m = s.name.match(/^(Desktop|Tablet|Mobile) (.+)$/);
   if (!m) continue;
-  const [, device, rest] = m;
+  const device = m[1];
+  const rest = m[2];
   const target = MAP[rest];
   if (!target) { report.skipped.push(s.name); continue; }
-  const [newName, key] = target;
+  const newName = target[0];
+  const key = target[1];
   groups[key] = groups[key] || { newName, byDevice: {} };
   if (!groups[key].byDevice[device]) groups[key].byDevice[device] = s;
   oldToKey[s.id] = { key, device };
 }
 
 // Load every font the old styles use
-const fontKeys = new Set();
+const fontKeys = new Set<string>();
 for (const s of oldStyles) fontKeys.add(JSON.stringify(s.fontName));
 for (const f of fontKeys) await figma.loadFontAsync(JSON.parse(f));
 
@@ -67,11 +69,14 @@ const collections = await figma.variables.getLocalVariableCollectionsAsync();
 const responsive = collections.find(c => c.name === 'Responsive');
 const fontsCol = collections.find(c => c.name === 'Fonts');
 if (!responsive) throw new Error('No "Responsive" variable collection found.');
-const modeId = Object.fromEntries(responsive.modes.map(m => [m.name, m.modeId]));
+const modeId: any = {};
+for (const md of responsive.modes) modeId[md.name] = md.modeId;
 for (const d of DEVICES) if (!modeId[d]) throw new Error('Responsive collection is missing a ' + d + ' mode.');
 const allVars = await figma.variables.getLocalVariablesAsync();
-const varByName = Object.fromEntries(allVars.filter(v => v.variableCollectionId === responsive.id).map(v => [v.name, v]));
-const weightVars = Object.fromEntries(allVars.filter(v => fontsCol && v.variableCollectionId === fontsCol.id).map(v => [v.id, v]));
+const varByName: any = {};
+for (const v of allVars) if (v.variableCollectionId === responsive.id) varByName[v.name] = v;
+const weightVars: any = {};
+for (const v of allVars) if (fontsCol && v.variableCollectionId === fontsCol.id) weightVars[v.id] = v;
 
 function getVar(name, scope) {
   let v = varByName[name];
@@ -83,9 +88,11 @@ const px = (ls, size) => ls.unit === 'PERCENT' ? Math.round(ls.value * size) / 1
 const lh = (l, size) => l.unit === 'PIXELS' ? l.value : l.unit === 'PERCENT' ? Math.round(l.value * size) / 100 : Math.round(size * 1.2);
 
 // ---------- 3. New styles ----------
-const newStyleByKey = {};
-const existingNew = Object.fromEntries(oldStyles.map(s => [s.name, s]));
-for (const [key, g] of Object.entries(groups)) {
+const newStyleByKey: any = {};
+const existingNew: any = {};
+for (const st of oldStyles) existingNew[st.name] = st;
+for (const key of Object.keys(groups)) {
+  const g = groups[key];
   const base = g.byDevice.Desktop || g.byDevice.Tablet || g.byDevice.Mobile;
   const sizeV = getVar('type/' + key + '/size', 'FONT_SIZE');
   const lineV = getVar('type/' + key + '/line-height', 'LINE_HEIGHT');
