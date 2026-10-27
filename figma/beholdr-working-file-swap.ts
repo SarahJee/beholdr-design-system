@@ -58,7 +58,7 @@ const MAP: any = {
 };
 const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'Mob': 'Mobile', 'M': 'Mobile' };
 
-const report: any = { italicsKept: 0, toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
+const report: any = { framesWanted: 0, pinsWanted: 0, italicsKept: 0, toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
 
 // New styles and the Responsive collection, from the library
 const newStyle: any = {};
@@ -159,12 +159,21 @@ for (const page of figma.root.children) {
     }
   }
 
+  // Load every font these layers use before changing anything (Figma needs this)
+  if (!DRY_RUN) {
+    const seen: any = {};
+    for (const job of jobs) for (const f of job.t.getRangeAllFontNames(0, job.t.characters.length)) {
+      const k = JSON.stringify(f);
+      if (!seen[k]) { seen[k] = true; await figma.loadFontAsync(f); }
+    }
+  }
+
   // Pass 2: set each top-level frame to its main device
   const frameDevice: any = new Map();
   for (const [top, v] of votes) {
     const device = ['Desktop', 'Tablet', 'Mobile'].sort((a, b) => v[b] - v[a])[0];
     const current = top.resolvedVariableModes && top.resolvedVariableModes[responsive.id];
-    if (current !== modeId[device] && setMode(top, device)) report.framesSet++;
+    if (current !== modeId[device]) { report.framesWanted++; if (setMode(top, device)) report.framesSet++; }
     frameDevice.set(top, device);
   }
 
@@ -172,11 +181,10 @@ for (const page of figma.root.children) {
   for (const job of jobs) {
     const t = job.t;
     const device = (job.hits.find((h: any) => h.device) || {}).device;
-    if (device && device !== (frameDevice.get(topFrame(t)) || 'Desktop') && setMode(t, device)) report.layersPinned++;
+    if (device && device !== (frameDevice.get(topFrame(t)) || 'Desktop')) { report.pinsWanted++; if (setMode(t, device)) report.layersPinned++; }
     for (const h of job.hits) if (h.keep) report.underlinesKept++;
     report.italicsKept += job.italics.length;
     if (DRY_RUN) { report.swapped++; continue; }
-    for (const f of t.getRangeAllFontNames(0, t.characters.length)) await figma.loadFontAsync(f);
     if (job.mixed) {
       for (const h of job.hits) await t.setRangeTextStyleIdAsync(h.start, h.end, h.style.id);
     } else {
@@ -198,7 +206,7 @@ for (const page of figma.root.children) {
 }
 
 print(DRY_RUN ? 'TRIAL RUN, nothing changed. This is what it would do:' : 'Done.');
-print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' + report.framesSet + ' | Layers given their own device: ' + report.layersPinned);
+print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' + report.framesSet + ' (of ' + report.framesWanted + ') | Layers given their own device: ' + report.layersPinned + ' (of ' + report.pinsWanted + ')');
 print('Dotted-underlined h3, h4 and h5 moving to the Link styles: ' + report.toLinkStyle + ' | Hand-made underlines kept after the swap: ' + report.underlinesKept + ' | Italic words kept: ' + report.italicsKept);
 print('Layers with hand-made size, font or line-height tweaks on top of their style (these get reset to the style): ' + report.overrides);
 if (report.overrideList.length) print(report.overrideList.join('\n'));
