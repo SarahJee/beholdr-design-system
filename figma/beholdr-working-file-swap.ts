@@ -32,6 +32,9 @@ const NEW_KEYS: any = {
   'Link/Small': '8131b776e8150caa4b5a61a18ea58f431d79af45',
   'Button/Text': '6afa10229f6f6c423feab9bb631f7078d34bf820',
 };
+// Leave as true for a trial run that changes nothing and just reports. Set to false to do it.
+const DRY_RUN = true;
+
 const RESPONSIVE_VAR_KEY = 'be9f602109098ac1578168d813630ff319c1f57c';
 
 // Old name (after the device prefix) -> new style name
@@ -48,7 +51,7 @@ const MAP: any = {
 };
 const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'M': 'Mobile' };
 
-const report: any = { swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
+const report: any = { overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
 
 // New styles and the Responsive collection, from the library
 const newStyle: any = {};
@@ -86,6 +89,7 @@ function topFrame(n: any) {
   return p;
 }
 function setMode(node: any, device: string) {
+  if (DRY_RUN) return true;
   try { node.setExplicitVariableModeForCollection(responsive, modeId[device]); return true; } catch (e) { return false; }
 }
 
@@ -104,6 +108,10 @@ for (const page of figma.root.children) {
     for (const sg of segs) { const h = await lookup(sg.id as string); if (h) hits.push({ start: sg.start, end: sg.end, device: h.device, style: h.style }); }
     if (!hits.length) continue;
     jobs.push({ t, hits, mixed: t.textStyleId === figma.mixed });
+    if (!hits.some(h => h.end - h.start < t.characters.length) && hits.length === 1) {
+      const old: any = await figma.getStyleByIdAsync(t.textStyleId as string);
+      if (old && (t.fontSize !== old.fontSize || JSON.stringify(t.fontName) !== JSON.stringify(old.fontName) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) report.overrides++;
+    }
     const top = topFrame(t);
     const v = votes.get(top) || { Desktop: 0, Tablet: 0, Mobile: 0 };
     v[hits[0].device]++;
@@ -122,9 +130,10 @@ for (const page of figma.root.children) {
   // Pass 3: swap styles, pinning any layer whose device differs from its frame
   for (const job of jobs) {
     const t = job.t;
-    for (const f of t.getRangeAllFontNames(0, t.characters.length)) await figma.loadFontAsync(f);
     const device = job.hits[0].device;
     if (device !== frameDevice.get(topFrame(t)) && setMode(t, device)) report.layersPinned++;
+    if (DRY_RUN) { report.swapped++; continue; }
+    for (const f of t.getRangeAllFontNames(0, t.characters.length)) await figma.loadFontAsync(f);
     if (job.mixed) {
       for (const h of job.hits) await t.setRangeTextStyleIdAsync(h.start, h.end, h.style.id);
     } else {
@@ -134,7 +143,8 @@ for (const page of figma.root.children) {
   }
 }
 
-print('Done.');
+print(DRY_RUN ? 'TRIAL RUN, nothing changed. This is what it would do:' : 'Done.');
 print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' + report.framesSet + ' | Layers given their own device: ' + report.layersPinned);
+print('Layers with hand-made size, font or line-height tweaks on top of their style (these get reset to the style): ' + report.overrides);
 const un = Object.keys(report.unmapped);
 if (un.length) print('Styles not recognised (left as they were): ' + un.map(n => n + ' (' + report.unmapped[n] + ')').join(', '));
