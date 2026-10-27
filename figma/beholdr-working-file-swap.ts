@@ -49,9 +49,9 @@ const MAP: any = {
   'Link/Large': 'Link/Large', 'Link/Regular': 'Link/Regular', 'Link/R': 'Link/Regular',
   'Link/Small': 'Link/Small', 'Link/Button Text': 'Button/Text',
 };
-const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'M': 'Mobile' };
+const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'Mob': 'Mobile', 'M': 'Mobile' };
 
-const report: any = { overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
+const report: any = { overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
 
 // New styles and the Responsive collection, from the library
 const newStyle: any = {};
@@ -110,7 +110,7 @@ for (const page of figma.root.children) {
     jobs.push({ t, hits, mixed: t.textStyleId === figma.mixed });
     if (!hits.some(h => h.end - h.start < t.characters.length) && hits.length === 1) {
       const old: any = await figma.getStyleByIdAsync(t.textStyleId as string);
-      if (old && (t.fontSize !== old.fontSize || JSON.stringify(t.fontName) !== JSON.stringify(old.fontName) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) report.overrides++;
+      if (old && (t.fontSize !== old.fontSize || JSON.stringify(t.fontName) !== JSON.stringify(old.fontName) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) { report.overrides++; report.overrideList.push(page.name + ' > ' + topFrame(t).name + ' > "' + t.characters.slice(0, 30) + '" (' + old.name + ')'); }
     }
     const top = topFrame(t);
     const v = votes.get(top) || { Desktop: 0, Tablet: 0, Mobile: 0 };
@@ -146,5 +146,6 @@ for (const page of figma.root.children) {
 print(DRY_RUN ? 'TRIAL RUN, nothing changed. This is what it would do:' : 'Done.');
 print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' + report.framesSet + ' | Layers given their own device: ' + report.layersPinned);
 print('Layers with hand-made size, font or line-height tweaks on top of their style (these get reset to the style): ' + report.overrides);
+if (report.overrideList.length) print(report.overrideList.join('\n'));
 const un = Object.keys(report.unmapped);
 if (un.length) print('Styles not recognised (left as they were): ' + un.map(n => n + ' (' + report.unmapped[n] + ')').join(', '));
