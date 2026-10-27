@@ -7,7 +7,8 @@
 //   2. Swaps it for the new single style (Body/Bold, Heading/h6...).
 //   3. Sets the Responsive mode so sizes stay the same: each top-level frame gets the
 //      device most of its text was using, and any layer that differs gets its own mode.
-//   4. Headings with a dotted underline (h3, h4, h5) move to Link/h3, Link/h4, Link/h5.
+//   4. Italic (slanted) words, like artwork titles, are put back after the swap.
+//   5. Headings with a dotted underline (h3, h4, h5) move to Link/h3, Link/h4, Link/h5.
 //      Any other underline added by hand (on an h2, say) is put back after the swap.
 // It skips text inside component instances (the library handles those) and deletes nothing.
 // Save a version first (File > Save to version history).
@@ -57,7 +58,7 @@ const MAP: any = {
 };
 const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'Mob': 'Mobile', 'M': 'Mobile' };
 
-const report: any = { toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
+const report: any = { italicsKept: 0, toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
 
 // New styles and the Responsive collection, from the library
 const newStyle: any = {};
@@ -137,10 +138,17 @@ for (const page of figma.root.children) {
       hits.push({ start: sg.start, end: sg.end, device, style, keep });
     }
     if (!hits.length) continue;
-    jobs.push({ t, hits, mixed: hits.length > 1 || hits[0].end - hits[0].start < t.characters.length });
+    const italics: any[] = [];
+    if (t.fontName === figma.mixed) {
+      for (const fs of t.getStyledTextSegments(['fontName'])) {
+        const fn: any = fs.fontName;
+        if (/slant|italic|oblique/i.test(fn.style) || (fn.variationSettings && fn.variationSettings.ital)) italics.push({ start: fs.start, end: fs.end, font: fn });
+      }
+    }
+    jobs.push({ t, hits, italics, mixed: hits.length > 1 || hits[0].end - hits[0].start < t.characters.length });
     if (!hits.some(h => h.end - h.start < t.characters.length) && hits.length === 1) {
       const old: any = await figma.getStyleByIdAsync(t.textStyleId as string);
-      if (old && (t.fontSize !== old.fontSize || JSON.stringify(t.fontName) !== JSON.stringify(old.fontName) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) { report.overrides++; report.overrideList.push(page.name + ' > ' + topFrame(t).name + ' > "' + t.characters.slice(0, 30) + '" (' + old.name + ')'); }
+      if (old && (t.fontSize !== old.fontSize || (t.fontName !== figma.mixed && JSON.stringify(t.fontName) !== JSON.stringify(old.fontName)) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) { report.overrides++; report.overrideList.push(page.name + ' > ' + topFrame(t).name + ' > "' + t.characters.slice(0, 30) + '" (' + old.name + ')'); }
     }
     const dev = (hits.find(h => h.device) || {}).device;
     if (dev) {
@@ -166,6 +174,7 @@ for (const page of figma.root.children) {
     const device = (job.hits.find((h: any) => h.device) || {}).device;
     if (device && device !== (frameDevice.get(topFrame(t)) || 'Desktop') && setMode(t, device)) report.layersPinned++;
     for (const h of job.hits) if (h.keep) report.underlinesKept++;
+    report.italicsKept += job.italics.length;
     if (DRY_RUN) { report.swapped++; continue; }
     for (const f of t.getRangeAllFontNames(0, t.characters.length)) await figma.loadFontAsync(f);
     if (job.mixed) {
@@ -173,6 +182,7 @@ for (const page of figma.root.children) {
     } else {
       await t.setTextStyleIdAsync(job.hits[0].style.id);
     }
+    for (const it of job.italics) t.setRangeFontName(it.start, it.end, it.font);
     for (const h of job.hits) {
       if (!h.keep) continue;
       t.setRangeTextDecoration(h.start, h.end, h.keep.d);
@@ -189,7 +199,7 @@ for (const page of figma.root.children) {
 
 print(DRY_RUN ? 'TRIAL RUN, nothing changed. This is what it would do:' : 'Done.');
 print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' + report.framesSet + ' | Layers given their own device: ' + report.layersPinned);
-print('Dotted-underlined h3, h4 and h5 moving to the Link styles: ' + report.toLinkStyle + ' | Hand-made underlines kept after the swap: ' + report.underlinesKept);
+print('Dotted-underlined h3, h4 and h5 moving to the Link styles: ' + report.toLinkStyle + ' | Hand-made underlines kept after the swap: ' + report.underlinesKept + ' | Italic words kept: ' + report.italicsKept);
 print('Layers with hand-made size, font or line-height tweaks on top of their style (these get reset to the style): ' + report.overrides);
 if (report.overrideList.length) print(report.overrideList.join('\n'));
 const un = Object.keys(report.unmapped);
