@@ -171,7 +171,8 @@ for (const page of figma.root.children) {
       let style = h ? h.style : null;
       // Dotted-underlined h3/h4/h5 (old or new style) go to the matching Link style
       const lv = await headingLevel(sg.textStyleId as string);
-      if (dotted && lv && newStyle['Link/' + lv]) { style = newStyle['Link/' + lv]; report.toLinkStyle++; }
+      // (not for text inside components placed on a page: those follow the library)
+      if (dotted && lv && newStyle['Link/' + lv] && (h || !insideInstance(t))) { style = newStyle['Link/' + lv]; report.toLinkStyle++; }
       if (!style) continue;
       // Keep a hand-made underline when the new style has none
       const keep = sg.textDecoration && sg.textDecoration !== 'NONE' && style.textDecoration === 'NONE'
@@ -187,7 +188,7 @@ for (const page of figma.root.children) {
       }
     }
     jobs.push({ t, hits, italics, mixed: hits.length > 1 || hits[0].end - hits[0].start < t.characters.length });
-    if (!hits.some(h => h.end - h.start < t.characters.length) && hits.length === 1) {
+    if (!hits.some(h => h.end - h.start < t.characters.length) && hits.length === 1 && hits[0].device) {
       const old: any = await figma.getStyleByIdAsync(t.textStyleId as string);
       if (old && (t.fontSize !== old.fontSize || (t.fontName !== figma.mixed && JSON.stringify(t.fontName) !== JSON.stringify(old.fontName)) || JSON.stringify(t.lineHeight) !== JSON.stringify(old.lineHeight))) { report.overrides++; report.overrideList.push(page.name + ' > ' + topFrame(t).name + ' > "' + t.characters.slice(0, 30) + '" (' + old.name + ')'); }
     }
