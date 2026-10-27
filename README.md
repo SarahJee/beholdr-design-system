@@ -62,7 +62,7 @@ Mobile first. Every style has a size, line height, letter spacing, and weight th
 - **Classes:** `.type-h1`, `.type-body`, `.type-link`, `.type-button`, and so on.
 - **Tailwind v4:** `text-h1`, `text-body`, and so on.
 
-Styles: `display-1`, `display-2`, `h1` to `h6`, `body-xl`, `body-lg`, `body-lg-bold`, `body`, `body-bold`, `body-sm`, `body-sm-bold`, `body-xs`, `link-lg`, `link`, `link-sm`, `button`. `h6` is an uppercase label, and the `link` styles are underlined.
+Styles: `display-1`, `display-2`, `h1` to `h6`, `body-xl`, `body-lg`, `body-lg-bold`, `body`, `body-bold`, `body-sm`, `body-sm-bold`, `body-xs`, `link-lg`, `link`, `link-sm`, `button`. `h6` is an uppercase label, and the `link` styles are underlined. Linked headings on cards use `.type-link-h3`, `.type-link-h4`, and `.type-link-h5`: the heading with a dotted underline (7% thick, 15% offset).
 
 **In Figma**, each of these is one text style bound to the Responsive variables (Desktop, Tablet, and Mobile modes): Heading/Display 1 is `display-1`, Heading/h1 is `h1`, Body/Regular is `body`, Body/Small Bold is `body-sm-bold`, Link/Small is `link-sm`, Button/Text is `button`, and so on. The values in `tokens.css` match the Figma variables exactly.
 

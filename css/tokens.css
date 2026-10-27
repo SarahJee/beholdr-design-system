@@ -160,3 +160,9 @@
 .type-link { font-family: var(--font-sans); font-size: var(--type-link); line-height: var(--type-link--line-height); letter-spacing: var(--type-link--letter-spacing); font-weight: var(--type-link--weight); text-decoration: underline; text-underline-offset: 3px; }
 .type-link-sm { font-family: var(--font-sans); font-size: var(--type-link-sm); line-height: var(--type-link-sm--line-height); letter-spacing: var(--type-link-sm--letter-spacing); font-weight: var(--type-link-sm--weight); text-decoration: underline; text-underline-offset: 3px; }
 .type-button { font-family: var(--font-sans); font-size: var(--type-button); line-height: var(--type-button--line-height); letter-spacing: var(--type-button--letter-spacing); font-weight: var(--type-button--weight); }
+
+/* Heading links: a heading style with a dotted underline (Figma Link/h3, Link/h4, Link/h5) */
+.type-link-h3, .type-link-h4, .type-link-h5 { text-decoration-line: underline; text-decoration-style: dotted; text-decoration-thickness: 0.07em; text-underline-offset: 0.15em; }
+.type-link-h3 { font-family: var(--font-sans); font-size: var(--type-h3); line-height: var(--type-h3--line-height); letter-spacing: var(--type-h3--letter-spacing); font-weight: var(--type-h3--weight); }
+.type-link-h4 { font-family: var(--font-sans); font-size: var(--type-h4); line-height: var(--type-h4--line-height); letter-spacing: var(--type-h4--letter-spacing); font-weight: var(--type-h4--weight); }
+.type-link-h5 { font-family: var(--font-sans); font-size: var(--type-h5); line-height: var(--type-h5--line-height); letter-spacing: var(--type-h5--letter-spacing); font-weight: var(--type-h5--weight); }
