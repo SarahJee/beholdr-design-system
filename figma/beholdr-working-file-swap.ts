@@ -58,7 +58,7 @@ const MAP: any = {
 };
 const PREFIX: any = { 'Desktop': 'Desktop', 'DeskT': 'Desktop', 'D': 'Desktop', 'Tablet': 'Tablet', 'T': 'Tablet', 'Mobile': 'Mobile', 'Mob': 'Mobile', 'M': 'Mobile' };
 
-const report: any = { framesWanted: 0, pinsWanted: 0, italicsKept: 0, toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
+const report: any = { italicsFailed: [], framesWanted: 0, pinsWanted: 0, italicsKept: 0, toLinkStyle: 0, underlinesKept: 0, overrideList: [], overrides: 0, swapped: 0, framesSet: 0, layersPinned: 0, unmapped: {} };
 
 // New styles and the Responsive collection, from the library
 const newStyle: any = {};
@@ -190,7 +190,16 @@ for (const page of figma.root.children) {
     } else {
       await t.setTextStyleIdAsync(job.hits[0].style.id);
     }
-    for (const it of job.italics) t.setRangeFontName(it.start, it.end, it.font);
+    for (const it of job.italics) {
+      // Figma often keeps the italic itself; only put it back if it was lost
+      const now: any = t.getRangeFontName(it.start, it.end);
+      if (now !== figma.mixed && /slant|italic|oblique/i.test(now.style)) continue;
+      try { t.setRangeFontName(it.start, it.end, it.font); }
+      catch (e) {
+        try { await figma.loadFontAsync({ family: it.font.family, style: it.font.style }); t.setRangeFontName(it.start, it.end, { family: it.font.family, style: it.font.style }); }
+        catch (e2) { report.italicsFailed.push(page.name + ' > ' + topFrame(t).name + ' > "' + t.characters.slice(it.start, it.end).slice(0, 30) + '"'); }
+      }
+    }
     for (const h of job.hits) {
       if (!h.keep) continue;
       t.setRangeTextDecoration(h.start, h.end, h.keep.d);
@@ -210,5 +219,6 @@ print('Text layers swapped: ' + report.swapped + ' | Frames set to a device: ' +
 print('Dotted-underlined h3, h4 and h5 moving to the Link styles: ' + report.toLinkStyle + ' | Hand-made underlines kept after the swap: ' + report.underlinesKept + ' | Italic words kept: ' + report.italicsKept);
 print('Layers with hand-made size, font or line-height tweaks on top of their style (these get reset to the style): ' + report.overrides);
 if (report.overrideList.length) print(report.overrideList.join('\n'));
+if (report.italicsFailed.length) print('Italics to fix by hand: ' + report.italicsFailed.join('\n'));
 const un = Object.keys(report.unmapped);
 if (un.length) print('Styles not recognised (left as they were): ' + un.map(n => n + ' (' + report.unmapped[n] + ')').join(', '));
