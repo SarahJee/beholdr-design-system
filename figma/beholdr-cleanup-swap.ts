@@ -1,5 +1,5 @@
 // Beholdr clean-up: swap the last old type styles, INCLUDING text inside components
-// Run it in the LIBRARY first, publish, accept the update in the working file, then run it there too.
+// Library: set INCLUDE_PLACED_COMPONENTS to true. Working file: leave it false.
 // Differences from the first swap script:
 //   - It also fixes text inside components and nested components (skips _DEP_ ones).
 //   - It doesn't set devices on frames. It only gives a text layer its own device when
@@ -46,6 +46,9 @@ const NEW_KEYS: any = {
 };
 // Leave as true for a trial run that changes nothing and just reports. Set to false to do it.
 const DRY_RUN = true;
+
+// Working file: leave text inside placed components alone (it follows the library). Library: set to true.
+const INCLUDE_PLACED_COMPONENTS = false;
 
 const RESPONSIVE_VAR_KEY = 'be9f602109098ac1578168d813630ff319c1f57c';
 
@@ -154,7 +157,7 @@ function setMode(node: any, device: string) {
 
 for (const page of figma.root.children) {
   await figma.setCurrentPageAsync(page);
-  const texts = page.findAllWithCriteria({ types: ['TEXT'] }).filter(t => !inDeprecated(t));
+  const texts = page.findAllWithCriteria({ types: ['TEXT'] }).filter(t => !inDeprecated(t) && (INCLUDE_PLACED_COMPONENTS || !insideInstance(t)));
 
   // Pass 1: what each text layer maps to, and which device each top-level frame mostly uses
   const jobs: any[] = [];
