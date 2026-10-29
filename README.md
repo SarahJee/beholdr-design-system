@@ -4,6 +4,8 @@ Design tokens, type, components, and the brand font for [beholdr.com](https://be
 
 The visual reference, with live component previews, is the Beholdr design system page in Claude.
 
+See `CHANGELOG.md` for what's changed since you last updated.
+
 ## What's here
 
 | Path | What it is |
