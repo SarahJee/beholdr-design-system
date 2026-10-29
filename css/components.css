@@ -118,7 +118,8 @@
 /* ---------- View toggle (mobile) ---------- */
 .bh-toggle { width: 390px; max-width: 100%; padding: var(--space-12) var(--space-16); background: var(--surface-white); }
 .bh-toggle__row { display: flex; gap: var(--space-16); }
-.bh-toggle__opt { flex: 1; height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); padding: var(--space-12) var(--space-16); font-size: 16px; line-height: 16px; letter-spacing: 0.02em; box-shadow: inset 0 0 0 2px var(--border-black); }
+.bh-toggle__opt { flex: 1; height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-8); padding: var(--space-12) var(--space-16); font-size: 16px; line-height: 20px; letter-spacing: 0; font-weight: 670; box-shadow: inset 0 0 0 2px var(--border-black); }
+.bh-toggle .bh-toggle__opt { font-weight: 670; }
 .bh-toggle__opt.is-active { background: var(--surface-black); color: var(--text-white); box-shadow: none; }
 
 /* ---------- Form field ---------- */

@@ -84,10 +84,10 @@
 
   function ViewToggle(p) {
     var active = p.active || 'map';
-    function opt(key, icon, label) {
-      return h('button', { key: key, type: 'button', 'aria-pressed': active === key ? 'true' : 'false', onClick: function () { p.onChange && p.onChange(key); }, className: cx('bh-toggle__opt', active === key && 'is-active') }, h(Icon, { name: icon, size: 24 }), h('span', null, label));
+    function opt(key, icon, label, size) {
+      return h('button', { key: key, type: 'button', 'aria-pressed': active === key ? 'true' : 'false', onClick: function () { p.onChange && p.onChange(key); }, className: cx('bh-toggle__opt', active === key && 'is-active') }, h(Icon, { name: icon, size: size }), h('span', null, label));
     }
-    return h('div', { className: 'bh-toggle' }, h('div', { className: 'bh-toggle__row' }, opt('list', 'list', 'List'), opt('map', 'map', 'Map')));
+    return h('div', { className: 'bh-toggle' }, h('div', { className: 'bh-toggle__row' }, opt('list', 'list', 'List', 16), opt('map', 'map', 'Map', 24)));
   }
 
   // ---------- Forms ----------
