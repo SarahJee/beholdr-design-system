@@ -2,6 +2,12 @@
 
 What's changed in the package, newest first. Only changes that affect the site are listed here. The scripts in `figma/` are for the designer and don't need to be copied into the site.
 
+## 3 November 2026
+
+**Paragraph spacing for body styles** (`css/tokens.css`, `tokens/tokens.json`)
+- Added `--type-body--paragraph-spacing`, set to `--space-12` (12px), plus a rule that puts that gap between consecutive paragraphs in any body style.
+- Matches the Figma variable `type/body/paragraph-spacing`, now bound to all eight Body text styles.
+
 ## 29 October 2026
 
 **View Toggle** (`css/components.css`, `components/beholdr-components.js`)

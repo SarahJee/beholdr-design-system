@@ -81,6 +81,7 @@
   --type-body-xl: 20px; --type-body-xl--line-height: 28px; --type-body-xl--letter-spacing: 0; --type-body-xl--weight: 450;
   --type-body-lg: 18px; --type-body-lg--line-height: 26px; --type-body-lg--letter-spacing: 0; --type-body-lg--weight: 450;
   --type-body-lg-bold: 18px; --type-body-lg-bold--line-height: 26px; --type-body-lg-bold--letter-spacing: 0; --type-body-lg-bold--weight: 650;
+  --type-body--paragraph-spacing: var(--space-12); /* space after each paragraph in body styles (Figma: type/body/paragraph-spacing) */
   --type-body: 16px; --type-body--line-height: 24px; --type-body--letter-spacing: 0; --type-body--weight: 450;
   --type-body-bold: 16px; --type-body-bold--line-height: 24px; --type-body-bold--letter-spacing: 0; --type-body-bold--weight: 650;
   --type-body-sm: 14px; --type-body-sm--line-height: 20px; --type-body-sm--letter-spacing: 0; --type-body-sm--weight: 450;
@@ -166,3 +167,7 @@
 .type-link-h3 { font-family: var(--font-sans); font-size: var(--type-h3); line-height: var(--type-h3--line-height); letter-spacing: var(--type-h3--letter-spacing); font-weight: var(--type-h3--weight); }
 .type-link-h4 { font-family: var(--font-sans); font-size: var(--type-h4); line-height: var(--type-h4--line-height); letter-spacing: var(--type-h4--letter-spacing); font-weight: var(--type-h4--weight); }
 .type-link-h5 { font-family: var(--font-sans); font-size: var(--type-h5); line-height: var(--type-h5--line-height); letter-spacing: var(--type-h5--letter-spacing); font-weight: var(--type-h5--weight); }
+
+/* Paragraph spacing for body styles: the gap between consecutive paragraphs (Figma: type/body/paragraph-spacing) */
+:where(.type-body-xl, .type-body-lg, .type-body-lg-bold, .type-body, .type-body-bold, .type-body-sm, .type-body-sm-bold, .type-body-xs) p + p,
+p:where(.type-body-xl, .type-body-lg, .type-body-lg-bold, .type-body, .type-body-bold, .type-body-sm, .type-body-sm-bold, .type-body-xs) + p { margin-block-start: var(--type-body--paragraph-spacing); }
